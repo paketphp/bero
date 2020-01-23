@@ -39,11 +39,20 @@ Bero has multiple implementations for usage in different scenarios
     * ideal use for development & testing
 
 ## Usage
+### Instantiation
+#### MinimalBero
+```php
+$bero = new \Paket\Bero\MinimalBero();
+```
+#### StrictBero
+```php
+$bero = new \Paket\Bero\StrictBero();
+```
 
+### Dependency injection
 Assume these classes
 
 ```php
-
 class A
 {
 }
@@ -64,7 +73,7 @@ Class B
 }
 ```
 
-### Construct class instances & retrieve them
+#### Construct class instances & retrieve them
 
 Instantiate class `B` that has `A` as a dependency
 
@@ -85,7 +94,7 @@ $int = $bero->callCallable(function (A $a, B $b) {
 assert($int === 17);
 ```
 
-### Use existing class instance together with Bero
+#### Use existing class instance together with Bero
 
 Assume our application already has a class instance of `A` that we want
 to use together with Bero.
@@ -96,7 +105,7 @@ $b = $bero->getObject(B::class);
 assert($a === $b->$a);
 ```
 
-### Custom factory for creating class instance
+#### Custom factory for creating class instance
 
 You can also provide your own `callable` to be called when
 Bero needs to instantiate a class.
@@ -129,7 +138,7 @@ $bero->addCallable(C::class, function () {
 });
 ```
 
-### Map interface to implementation
+#### Map interface to implementation
 
 If your class depends on an interface you need to tell Bero
 which implementation to be used.
@@ -148,7 +157,7 @@ $i = $bero->getObject(I::class);
 assert($i instanceof D);
 ```
 
-### Make Bero self aware
+#### Make Bero self aware
 
 Normally you would only call Bero once when bootstrapping the application, e.g. instantiate the controller
 & all it's dependencies & then execute it.
