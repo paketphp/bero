@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Paket\Bero\Harness;
 
+require_once __DIR__ . '/../Fixture/callCallableTestFunction.php';
+
 use Paket\Bero\Bero;
 use Paket\Bero\Fixture\ClassWithCallable;
 use Paket\Bero\Fixture\ClassWithConstructor;
@@ -43,6 +45,13 @@ trait CallCallableTestHarness
     {
         $this->getBero()->callCallable([ClassWithCallable::class, 'staticCallable']);
         Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
+    }
+
+    public function testThatFunctionCallableWorks()
+    {
+        global $callCallableTestFunctionResult;
+        $this->getBero()->callCallable('Paket\Bero\Fixture\callCallableTestFunction');
+        Assert::assertInstanceOf(ClassWithoutConstructor::class, $callCallableTestFunctionResult);
     }
 
     public function testThatCallCallableReturnsCorrectValue()
