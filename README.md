@@ -4,6 +4,10 @@ Bero (_Swedish_ depend) is a dependency injection container for PHP.
 By inspecting class constructors Bero can instantiate classes and all their class dependencies with any depth.
 It could be described as a on-the-fly factory creator.
 
+## Installation
+
+`composer require paket/bero`
+
 ## General
 
 When the same class dependency is used multiple times thru the dependency chain Bero 
