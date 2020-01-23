@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Paket\Bero\Harness;
 
 use Paket\Bero\Bero;
+use Paket\Bero\Fixture\ClassWithCallable;
 use Paket\Bero\Fixture\ClassWithConstructor;
 use Paket\Bero\Fixture\ClassWithEmptyConstructor;
 use Paket\Bero\Fixture\ClassWithoutConstructor;
@@ -30,6 +31,18 @@ trait CallCallableTestHarness
             Assert::assertSame($first, $fourth->second);
             Assert::assertSame($third, $fourth->third);
         });
+    }
+
+    public function testThatMethodCallableWorks()
+    {
+        $this->getBero()->callCallable([new ClassWithCallable(), 'methodCallable']);
+        Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
+    }
+
+    public function testThatStaticCallableWorks()
+    {
+        $this->getBero()->callCallable([ClassWithCallable::class, 'staticCallable']);
+        Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
     }
 
     public function testThatCallCallableReturnsCorrectValue()
