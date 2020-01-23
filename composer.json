@@ -23,6 +23,8 @@
     "scripts": {
         "test": "phpunit",
         "coverage": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-text --colors=never",
-        "coverage-html": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-html coverage"
+        "coverage-html": [
+            "Paket\\Bero\\Helper\\Shell::deleteCoverage",
+            "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-html coverage"]
     }
 }
