@@ -1,0 +1,28 @@
+{
+    "name": "paket/bero",
+    "description": "Dependency injection container",
+    "homepage": "https://github.com/paketphp",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Paket\\Bero\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "Paket\\Bero\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "coverage": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-text --colors=never",
+        "coverage-html": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-html coverage"
+    }
+}
