@@ -5,12 +5,15 @@ namespace Paket\Bero\Helper;
 
 final class Shell
 {
-    public static function deleteCoverage()
+    public static function deleteCoverage(): void
     {
-        self::rimraf(__DIR__ . '/../../coverage');
+        $dir = __DIR__ . '/../../coverage';
+        if (is_dir($dir)) {
+            self::rimraf($dir);
+        }
     }
 
-    private static function rimraf($dir)
+    private static function rimraf(string $dir): void
     {
         $files = array_diff(scandir($dir), array('.', '..'));
         foreach ($files as $file) {
