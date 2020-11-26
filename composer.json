@@ -20,7 +20,10 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
+        "test": [
+            "Paket\\Bero\\Helper\\Shell::downloadPhpUnit",
+            "phpunit"
+        ],
         "coverage": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-text --colors=never",
         "coverage-html": [
             "Paket\\Bero\\Helper\\Shell::deleteCoverage",
