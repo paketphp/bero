@@ -124,15 +124,12 @@ final class StrictBero implements Bero
     {
         $parameters = [];
         foreach ($rps as $rp) {
-            try {
-                $class = $rp->getClass();
-            } catch (ReflectionException $e) {
-                throw new LogicException("No such class for parameter {$rp->getName()}", 0, $e);
-            }
-            if ($class === null) {
+            $type = $rp->getType();
+            if ($type === null) {
                 throw new LogicException("Missing class for parameter {$rp->getName()}");
             }
-            $parameters[] = $this->getObject($class->getName());
+            $class = $type->getName();
+            $parameters[] = $this->getObject($class);
         }
         return $parameters;
     }

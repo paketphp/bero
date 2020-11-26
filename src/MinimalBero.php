@@ -115,7 +115,7 @@ final class MinimalBero implements Bero
     {
         $parameters = [];
         foreach ($rps as $rp) {
-            $parameters[] = $this->getObject($rp->getClass()->getName());
+            $parameters[] = $this->getObject($rp->getType()->getName());
         }
         return $parameters;
     }
