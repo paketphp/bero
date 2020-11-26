@@ -8,6 +8,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 
 final class StrictBero implements Bero
@@ -126,7 +127,10 @@ final class StrictBero implements Bero
         foreach ($rps as $rp) {
             $type = $rp->getType();
             if ($type === null) {
-                throw new LogicException("Missing class for parameter {$rp->getName()}");
+                throw new LogicException("Missing type for parameter {$rp->getName()}");
+            }
+            if (!($type instanceof ReflectionNamedType)) {
+                throw new LogicException("Union types are not supported for parameter {$rp->getName()}");
             }
             $class = $type->getName();
             $parameters[] = $this->getObject($class);

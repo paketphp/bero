@@ -7,6 +7,7 @@ use LogicException;
 use Paket\Bero\Fixture\ClassInterface;
 use Paket\Bero\Fixture\ClassWithoutTypedConstructor;
 use Paket\Bero\Fixture\ClassWithScalarConstructor;
+use Paket\Bero\Fixture\ClassWithUnionConstructor;
 use Paket\Bero\Fixture\ClassWithUnknownTypedConstructor;
 use Paket\Bero\Harness\AddCallableTestHarness;
 use Paket\Bero\Harness\AddInterfaceTestHarness;
@@ -91,6 +92,25 @@ final class StrictBeroTest extends TestCase
     {
         $this->expectException(LogicException::class);
         $this->getBero()->callCallable(function (ClassWithUnknownTypedConstructor $object) {
+        });
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testThatGetObjectThrowsOnUnionTypes()
+    {
+        $this->expectException(LogicException::class);
+        $this->getBero()->getObject(ClassWithUnionConstructor::class);
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testThatCallCallableThrowsOnUnionTypes()
+    {
+        $this->expectException(LogicException::class);
+        $this->getBero()->callCallable(function (ClassWithUnionConstructor $object) {
         });
     }
 }
