@@ -54,7 +54,7 @@ trait AddCallableTestHarness
         $this->getBero()->addObject(ClassImplementingInterface::class, $existing);
         $this->getBero()->addInterface(ClassInterface::class, ClassImplementingInterface::class);
 
-        $object = $this->getBero()->callCallable(function (ClassInterface $object) use ($existing) {
+        $this->getBero()->callCallable(function (ClassInterface $object) use ($existing) {
             Assert::assertSame($existing, $object);
         });
     }
