@@ -22,7 +22,7 @@
     "scripts": {
         "test": [
             "Paket\\Bero\\Helper\\Shell::downloadPhpUnit",
-            "phpunit"
+            "@php phpunit.phar"
         ],
         "coverage": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-text --colors=never",
         "coverage-html": [
