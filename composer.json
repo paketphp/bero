@@ -24,9 +24,14 @@
             "Paket\\Bero\\Helper\\Shell::downloadPhpUnit",
             "@php phpunit.phar"
         ],
-        "coverage": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-text --colors=never",
+        "coverage": [
+            "Paket\\Bero\\Helper\\Shell::downloadPhpUnit",
+            "phpdbg -qrr phpunit.phar --coverage-text --colors=never"
+        ],
         "coverage-html": [
+            "Paket\\Bero\\Helper\\Shell::downloadPhpUnit",
             "Paket\\Bero\\Helper\\Shell::deleteCoverage",
-            "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-html coverage"]
+            "phpdbg -qrr phpunit.phar --coverage-html coverage"
+        ]
     }
 }
