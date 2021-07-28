@@ -62,7 +62,7 @@ class A
 {
 }
 
-Class B 
+class B
 {
     public $a;
 
