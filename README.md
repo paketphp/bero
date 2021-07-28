@@ -39,6 +39,9 @@ Bero has multiple implementations for usage in different scenarios
 * StrictBero
     * better error reporting
     * ideal use for development & testing
+* BeroContainer
+    * [PSR-11](https://www.php-fig.org/psr/psr-11/) complaint container
+    * Wrapper around Bero
 
 ## Usage
 ### Instantiation
