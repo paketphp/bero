@@ -6,30 +6,39 @@ It could be described as a on-the-fly factory creator.
 
 ![](https://github.com/paketphp/bero/workflows/tests/badge.svg)
 
+## Usage
+
+```
+$bero = new StrictBero();
+$bero->callCallable(function (ArticleRepository $articleRepository, Json $json) {
+   $article = $articleRepository->getArticleById(17);
+   echo $json->encode($article);
+});
+```
+
 ## Installation
 
 `composer require paket/bero`
 
+## Requirements
+
+Requires PHP 7.2 or higher.
+
 ## General
 
-When the same class dependency is used multiple times thru the dependency chain Bero 
-reuses the same object instance for that class for the entire lifetime of Bero (ideally the length of a request). 
-This is what you probably want in the vast majority of cases, e.g. only one class instance per request for a
+Bero inspect method or function parameters for callables or class constructors to be able to instantiate those parameters. To be able to instantiate a parameter it has to have class type, if a type is an interface Bero has to be configured beforehand for what implementation to pick. Every class must either already be loaded or be able to be loaded by autoloader. 
+
+This means that if a class with constructor parameter that is either missing or of scalar type, Bero can't instantiate it. Bero has a configuration API for those use cases.
+
+When the same class is used multiple times through the dependency chain Bero
+reuses the same object instance for that class for the entire lifetime of Bero (ideally the length of a request). This is what you probably want in the vast majority of cases, e.g. only one class instance per request for a
 database repository.
- 
-This also means that any state stored within an instance will be shared with all usages
-of that class during the lifetime of Bero, for PHP that works pretty well because of PHP's share nothing between request, 
-i.e. shared state will only be for that request, meaning you can use Bero for a singleton pattern per request basis, e.g.
-keeping track of the current logged in user for this request.
 
-To be able to instantiate a class the class constructor must be
+This also means that any state stored within an instance will be shared with all usages of that class during the lifetime of Bero, for PHP that works pretty well because of PHP's share nothing between request, i.e. shared state will only be for that request, meaning you can use Bero for a singleton pattern per request basis, e.g. keeping track of the current logged in user for this request.
 
-* missing or empty
-* all constructor parameters must have a class type
-* classes must either already be loaded or be able to be loaded by autoloader
+If it is needed to create a new instance for each usage it is recommended to create a factory class instead, depend on the factory class and then ask the factory class for each usage.
 
-This means that a class, which constructor parameters are missing type or is of a scalar type, can't
-be automatically instantiated by Bero. Bero has a configuration API for those use cases.  
+### Implementations
 
 Bero has multiple implementations for usage in different scenarios
 
@@ -43,8 +52,8 @@ Bero has multiple implementations for usage in different scenarios
     * [PSR-11](https://www.php-fig.org/psr/psr-11/) complaint container
     * Wrapper around Bero
 
-## Usage
 ### Instantiation
+
 #### MinimalBero
 ```php
 $bero = new \Paket\Bero\MinimalBero();
@@ -229,3 +238,7 @@ $c->run(true);
 By adding Bero to itself we can ask for the Bero instance further down in the application
 & retain all previously constructed class instances & access them, thus class instance field `$a` for 
 `FooService` will be the same as the global class instance `$a` & not a newly created instance. 
+
+## License
+
+Bero is released under the MIT License. See the bundled file LICENSE.txt.
