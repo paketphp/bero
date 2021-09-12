@@ -35,15 +35,27 @@ trait CallCallableTestHarness
         });
     }
 
-    public function testThatMethodCallableWorks()
+    public function testThatClassMethodCallableWorks()
     {
         $this->getBero()->callCallable([new ClassWithCallable(), 'methodCallable']);
         Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
     }
 
-    public function testThatStaticCallableWorks()
+    public function testThatClassStaticCallableWorks()
     {
         $this->getBero()->callCallable([ClassWithCallable::class, 'staticCallable']);
+        Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
+    }
+
+    public function testThatClassStringStaticCallableWorks()
+    {
+        $this->getBero()->callCallable('\Paket\Bero\Fixture\ClassWithCallable::staticCallable');
+        Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
+    }
+
+    public function testThatClassInvokeCallableWorks()
+    {
+        $this->getBero()->callCallable(new ClassWithCallable());
         Assert::assertInstanceOf(ClassWithoutConstructor::class, ClassWithCallable::$c);
     }
 

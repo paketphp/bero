@@ -16,4 +16,9 @@ final class ClassWithCallable
     {
         self::$c = $c;
     }
+
+    public function __invoke(ClassWithoutConstructor $c): void
+    {
+        self::$c = $c;
+    }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Paket\Bero;
 
+use Closure;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
@@ -61,9 +62,22 @@ final class StrictBero implements Bero
     public function callCallable(callable $callable)
     {
         try {
-            $rf = is_array($callable) ?
-                new ReflectionMethod($callable[0], $callable[1]) :
-                new ReflectionFunction($callable);
+            if ($callable instanceof Closure) {
+                $rf = new ReflectionFunction($callable);
+            } elseif (is_array($callable)) {
+                $rf = new ReflectionMethod($callable[0], $callable[1]);
+            } elseif (is_object($callable)) {
+                $rf = new ReflectionMethod($callable, '__invoke');
+            } elseif (is_string($callable)) {
+                $parts = explode('::', $callable, 2);
+                if (isset($parts[1])) {
+                    $rf = new ReflectionMethod($parts[0], $parts[1]);
+                } else {
+                    $rf = new ReflectionFunction($callable);
+                }
+            } else {
+                throw new LogicException('Unknown callable type');
+            }
         } catch (ReflectionException $e) {
             throw new LogicException('Failed reflecting callable', 0, $e);
         }
