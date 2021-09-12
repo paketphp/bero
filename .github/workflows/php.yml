@@ -4,15 +4,26 @@ on: [push]
 
 jobs:
     run:
-        runs-on: ${{ matrix.operating-system }}
         strategy:
             matrix:
-                operating-system: [ubuntu-latest]
-                php-versions: ['7.2', '7.3', '7.4', '8.0']
                 include:
+                    - php-versions: '7.2'
+                      phpunit-versions: '8.5.20'
+                      operating-system: 'ubuntu-latest'
+                    - php-versions: '7.3'
+                      phpunit-versions: 'latest'
+                      operating-system: 'ubuntu-latest'
+                    - php-versions: '7.4'
+                      phpunit-versions: 'latest'
+                      operating-system: 'ubuntu-latest'
                     - php-versions: '8.0'
-                      phpunit-tool: phpunit
-        name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+                      phpunit-versions: 'latest'
+                      operating-system: 'ubuntu-latest'
+                    - php-versions: '8.1'
+                      phpunit-versions: 'latest'
+                      operating-system: 'ubuntu-latest'
+        runs-on: ${{ matrix.operating-system }}
+        name: PHP ${{ matrix.php-versions }} test on ${{ matrix.operating-system }}
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -20,9 +31,9 @@ jobs:
             - name: Setup PHP ${{ matrix.php-versions }}
               uses: shivammathur/setup-php@v2
               with:
-                   php-version: ${{ matrix.php-versions }}
-                   coverage: none
-                   tools: ${{ matrix.phpunit-tool || 'phpunit:8.5.8' }}
+                  php-version: ${{ matrix.php-versions }}
+                  coverage: none
+                  tools: phpunit:${{ matrix.phpunit-versions }}
 
             - name: Validate composer.json and composer.lock
               run: composer validate
