@@ -17,7 +17,7 @@ final class BeroContainer implements ContainerInterface
         $this->bero = $bero;
     }
 
-    public function get(string $id)
+    public function get($id)
     {
         try {
             return $this->bero->getObject($id);
@@ -26,7 +26,7 @@ final class BeroContainer implements ContainerInterface
         }
     }
 
-    public function has(string $id): bool
+    public function has($id): bool
     {
         try {
             $this->bero->getObject($id);
