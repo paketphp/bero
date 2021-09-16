@@ -7,7 +7,6 @@ use Closure;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
-use ReflectionMethod;
 use ReflectionParameter;
 
 final class MinimalBero implements Bero
@@ -60,20 +59,7 @@ final class MinimalBero implements Bero
      */
     public function callCallable(callable $callable)
     {
-        if ($callable instanceof Closure) {
-            $rf = new ReflectionFunction($callable);
-        } elseif (is_array($callable)) {
-            $rf = new ReflectionMethod($callable[0], $callable[1]);
-        } elseif (is_object($callable)) {
-            $rf = new ReflectionMethod($callable, '__invoke');
-        } else {
-            $parts = explode('::', $callable, 2);
-            if (isset($parts[1])) {
-                $rf = new ReflectionMethod($parts[0], $parts[1]);
-            } else {
-                $rf = new ReflectionFunction($callable);
-            }
-        }
+        $rf = new ReflectionFunction(Closure::fromCallable($callable));
         return $callable(...$this->expandParameters($rf->getParameters()));
     }
 
